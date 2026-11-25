@@ -33,9 +33,13 @@ export default async function ClientPortal() {
     return (
       <main className="flex min-h-dvh items-center justify-center bg-[#071827] p-6 text-white">
         <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl">
-          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1C596C] text-xl font-bold text-white">
-            A
-          </div>
+        <div className="mb-6 flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white">
+  <img
+    src="/tekno-pro-digital.jpeg"
+    alt="Tekno Pro Digital"
+    className="h-full w-full object-contain"
+  />
+</div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#65D5D0]">
             Tekno Pro Digital
           </p>
@@ -119,9 +123,13 @@ export default async function ClientPortal() {
       <header className="sticky top-0 z-20 border-b border-white/10 bg-[#102C42] text-white shadow-lg">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#65D5D0]/30 bg-[#1C596C] text-lg font-bold">
-              A
-            </div>
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-white">
+  <img
+    src="/tekno-pro-digital.jpeg"
+    alt="Tekno Pro Digital"
+    className="h-full w-full object-contain"
+  />
+</div>
             <div>
               <p className="text-sm font-semibold tracking-wide">
                 Tekno Pro Digital
@@ -140,19 +148,19 @@ export default async function ClientPortal() {
 
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8">
         {/* NavegaÃ§Ã£o lateral */}
-        <aside className="hidden lg:block">
-          <div className="sticky top-28 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
+        <aside className="block">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
             <p className="mb-4 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
               NavegaÃ§Ã£o
             </p>
 
             <nav className="space-y-1">
               {[
-                ["VisÃ£o geral", "#inicio"],
+                ["Visão geral", "#inicio"],
                 ["Contratos", "#contratos"],
-                ["CalendÃ¡rio", "#calendario"],
+                ["Calendário", "#calendario"],
                 ["Financeiro", "#financeiro"],
-                ["SolicitaÃ§Ãµes", "#solicitacoes"],
+                ["Solicitações", "#solicitacoes"],
               ].map(([label, href]) => (
                 <a
                   key={href}
@@ -177,7 +185,7 @@ export default async function ClientPortal() {
 
         {/* ConteÃºdo principal */}
         <div className="min-w-0 space-y-8">
-          {/* VisÃ£o geral */}
+          {/* Visão geral */}
           <section id="inicio">
             <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#102C42] via-[#17465D] to-[#1C596C] p-6 text-white shadow-xl sm:p-8">
               <div className="flex flex-wrap items-start justify-between gap-5">
@@ -187,11 +195,11 @@ export default async function ClientPortal() {
                   </p>
 
                   <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-                    OlÃ¡, {user.email?.split("@")[0]}
+                  Olá, {user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0]}
                   </h1>
 
                   <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
-                    Acompanhe seus projetos, contratos, entregas e informaÃ§Ãµes
+                    Acompanhe seus projetos, contratos, entregas e informações
                     da sua empresa em um Ãºnico lugar.
                   </p>
                 </div>
@@ -215,21 +223,21 @@ export default async function ClientPortal() {
                   color: "#1C596C",
                 },
                 {
-                  label: "ConteÃºdos",
+                  label: "Conteúdos",
                   value: postCount,
-                  description: "Itens no calendÃ¡rio",
+                  description: "Itens no Calendário",
                   color: "#29808D",
                 },
                 {
-                  label: "CobranÃ§as",
+                  label: "Cobranças",
                   value: invoiceCount,
                   description: "Registros financeiros",
                   color: "#B7791F",
                 },
                 {
-                  label: "SolicitaÃ§Ãµes",
+                  label: "Solicitações",
                   value: requestCount,
-                  description: "HistÃ³rico de atendimento",
+                  description: "Histórico de atendimento",
                   color: "#5265A8",
                 },
               ].map((item) => (
@@ -264,7 +272,7 @@ export default async function ClientPortal() {
             <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#29808D]">
-                  DocumentaÃ§Ã£o
+                  Documentação
                 </p>
                 <h2 className="mt-1 text-xl font-semibold">Meus contratos</h2>
                 <p className="mt-1 text-sm text-slate-500">
@@ -325,7 +333,7 @@ export default async function ClientPortal() {
 
                     {Number(c.setup_fee) > 0 && (
                       <p className="mt-2 text-xs text-slate-500">
-                        ImplantaÃ§Ã£o: {formatBRL(Number(c.setup_fee))}
+                        Implantação: {formatBRL(Number(c.setup_fee))}
                       </p>
                     )}
                   </div>
@@ -385,7 +393,7 @@ export default async function ClientPortal() {
                   </div>
 
                   <h3 className="mt-4 text-sm font-semibold">
-                    Nenhum contrato disponÃ­vel
+                    Nenhum contrato disponível
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
@@ -397,17 +405,17 @@ export default async function ClientPortal() {
             </div>
           </section>
 
-          {/* CalendÃ¡rio de marketing */}
+          {/* Calendário de marketing */}
           <section id="calendario" className="scroll-mt-24">
             <div className="mb-4">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#29808D]">
                 Planejamento
               </p>
               <h2 className="mt-1 text-xl font-semibold">
-                Meu calendÃ¡rio e conteÃºdos
+                Meu Calendário e Conteúdos
               </h2>
               <p className="mt-1 text-sm text-slate-500">
-                Acompanhe suas entregas e aprove conteÃºdos diretamente pelo
+                Acompanhe suas entregas e aprove Conteúdos diretamente pelo
                 portal.
               </p>
             </div>
@@ -505,11 +513,11 @@ export default async function ClientPortal() {
               {!posts?.length && (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
                   <h3 className="text-sm font-semibold">
-                    Seu calendÃ¡rio estÃ¡ sendo preparado
+                    Seu Calendário estÃ¡ sendo preparado
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Quando novos conteÃºdos forem cadastrados, eles aparecerÃ£o
+                    Quando novos Conteúdos forem cadastrados, eles aparecerÃ£o
                     aqui.
                   </p>
                 </div>
@@ -523,7 +531,7 @@ export default async function ClientPortal() {
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#29808D]">
                 Financeiro
               </p>
-              <h2 className="mt-1 text-xl font-semibold">Minhas cobranÃ§as</h2>
+              <h2 className="mt-1 text-xl font-semibold">Minhas Cobranças</h2>
               <p className="mt-1 text-sm text-slate-500">
                 Consulte os valores e vencimentos vinculados Ã  sua empresa.
               </p>
@@ -576,24 +584,24 @@ export default async function ClientPortal() {
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Suas informaÃ§Ãµes financeiras estarÃ£o disponÃ­veis aqui.
+                    Suas informações financeiras estarÃ£o disponÃ­veis aqui.
                   </p>
                 </div>
               )}
             </div>
           </section>
 
-          {/* SolicitaÃ§Ãµes */}
+          {/* Solicitações */}
           <section id="solicitacoes" className="scroll-mt-24">
             <div className="mb-4">
               <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#29808D]">
                 Atendimento
               </p>
               <h2 className="mt-1 text-xl font-semibold">
-                SolicitaÃ§Ãµes e suporte
+                Solicitações e suporte
               </h2>
               <p className="mt-1 text-sm text-slate-500">
-                Envie uma solicitaÃ§Ã£o e acompanhe o histÃ³rico do atendimento.
+                Envie uma solicitaÃ§Ã£o e acompanhe o Histórico do atendimento.
               </p>
             </div>
 
@@ -664,7 +672,7 @@ export default async function ClientPortal() {
 
             <div className="mt-6">
               <h3 className="mb-3 text-base font-semibold">
-                HistÃ³rico de solicitaÃ§Ãµes
+                Histórico de Solicitações
               </h3>
 
               <div className="space-y-3">
@@ -706,7 +714,7 @@ export default async function ClientPortal() {
                     </p>
 
                     <p className="mt-1 text-sm text-slate-500">
-                      Suas solicitaÃ§Ãµes e respostas aparecerÃ£o aqui.
+                      Suas Solicitações e respostas aparecerÃ£o aqui.
                     </p>
                   </div>
                 )}
