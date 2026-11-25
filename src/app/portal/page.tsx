@@ -44,10 +44,10 @@ export default async function ClientPortal() {
             Tekno Pro Digital
           </p>
           <h1 className="mt-3 text-2xl font-semibold">
-            Seu acesso estÃ¡ sendo preparado
+            Seu acessoestá  sendo preparado
           </h1>
           <p className="mt-3 text-sm leading-6 text-slate-300">
-            Sua conta foi autenticada, mas ainda nÃ£o estÃ¡ vinculada ao cadastro
+            Sua conta foi autenticada, mas ainda nÃ£oestá  vinculada ao cadastro
             da sua empresa. Nossa equipe farÃ¡ essa associaÃ§Ã£o para liberar seu
             portal.
           </p>
@@ -134,7 +134,7 @@ export default async function ClientPortal() {
               <p className="text-sm font-semibold tracking-wide">
                 Tekno Pro Digital
               </p>
-              <p className="text-xs text-slate-300">Ãrea do cliente</p>
+              <p className="text-xs text-slate-300">Area do cliente</p>
             </div>
           </div>
 
@@ -147,11 +147,11 @@ export default async function ClientPortal() {
       </header>
 
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:px-8">
-        {/* NavegaÃ§Ã£o lateral */}
+        {/* Navegações  lateral */}
         <aside className="block">
         <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
             <p className="mb-4 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-              NavegaÃ§Ã£o
+              Navegações 
             </p>
 
             <nav className="space-y-1">
@@ -177,7 +177,7 @@ export default async function ClientPortal() {
                 Tekno Pro Digital
               </p>
               <p className="mt-2 text-xs leading-5 text-slate-300">
-                Seu espaÃ§o de acompanhamento e relacionamento.
+                Seu espaçoo de acompanhamento e relacionamento.
               </p>
             </div>
           </div>
@@ -191,7 +191,7 @@ export default async function ClientPortal() {
               <div className="flex flex-wrap items-start justify-between gap-5">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#65D5D0]">
-                    Bem-vindo ao seu espaÃ§o
+                    Bem-vindo ao seu espaçoo
                   </p>
 
                   <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -200,7 +200,7 @@ export default async function ClientPortal() {
 
                   <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
                     Acompanhe seus projetos, contratos, entregas e informações
-                    da sua empresa em um Ãºnico lugar.
+                    da sua empresa em um Unico lugar.
                   </p>
                 </div>
 
@@ -397,7 +397,7 @@ export default async function ClientPortal() {
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Seus documentos aparecerÃ£o aqui quando forem
+                    Seus documentos aparecerão o aqui quando forem
                     disponibilizados pela equipe.
                   </p>
                 </div>
@@ -513,11 +513,11 @@ export default async function ClientPortal() {
               {!posts?.length && (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
                   <h3 className="text-sm font-semibold">
-                    Seu Calendário estÃ¡ sendo preparado
+                    Seu Calendárioestá  sendo preparado
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Quando novos Conteúdos forem cadastrados, eles aparecerÃ£o
+                    Quando novos Conteúdos forem cadastrados, eles aparecerão o
                     aqui.
                   </p>
                 </div>
@@ -580,11 +580,11 @@ export default async function ClientPortal() {
               {!invoices?.length && (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
                   <h3 className="text-sm font-semibold">
-                    Nenhuma cobranÃ§a cadastrada
+                    Nenhuma cobrança cadastrada
                   </h3>
 
                   <p className="mt-1 text-sm text-slate-500">
-                    Suas informações financeiras estarÃ£o disponÃ­veis aqui.
+                    Suas informações financeiras estarão  disponiveis aqui.
                   </p>
                 </div>
               )}
@@ -601,7 +601,7 @@ export default async function ClientPortal() {
                 Solicitações e suporte
               </h2>
               <p className="mt-1 text-sm text-slate-500">
-                Envie uma solicitaÃ§Ã£o e acompanhe o Histórico do atendimento.
+                Envie uma solicitações e acompanhe o Histórico do atendimento.
               </p>
             </div>
 
@@ -659,13 +659,13 @@ export default async function ClientPortal() {
                     name="message"
                     required
                     rows={4}
-                    placeholder="Descreva sua solicitaÃ§Ã£o..."
+                    placeholder="Descreva sua solicitações..."
                     className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm outline-none transition focus:border-[#29808D] focus:ring-2 focus:ring-[#29808D]/10"
                   />
                 </div>
 
                 <button className="w-fit rounded-xl bg-[#102C42] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1C596C]">
-                  Enviar solicitaÃ§Ã£o
+                  Enviar solicitações
                 </button>
               </form>
             </div>
@@ -710,11 +710,11 @@ export default async function ClientPortal() {
                 {!requests?.length && (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center">
                     <p className="text-sm font-semibold">
-                      Nenhuma solicitaÃ§Ã£o registrada
+                      Nenhuma solicitações registrada
                     </p>
 
                     <p className="mt-1 text-sm text-slate-500">
-                      Suas Solicitações e respostas aparecerÃ£o aqui.
+                      Suas Solicitações e respostas aparecerão o aqui.
                     </p>
                   </div>
                 )}
@@ -729,7 +729,7 @@ export default async function ClientPortal() {
                 Tekno Pro Digital
               </p>
               <p className="mt-1 text-xs text-slate-400">
-                Seu negÃ³cio, conectado.
+                Seunegocio, conectado.
               </p>
             </div>
 
