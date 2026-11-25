@@ -1,7 +1,7 @@
 {
   "settings": {
     "brand": {
-      "name": "Aurestride Digital",
+      "name": "Tekno Pro Digital",
       "tagline": "Marketing e tecnologia para pequenos negócios",
       "logo_url": "",
       "description": "Marketing digital, criação de sites e sistemas web para pequenos negócios que querem crescer com mais presença, organização e profissionalismo."
@@ -14,8 +14,8 @@
     },
     "contact": {
       "whatsapp": "",
-      "whatsapp_message": "Olá! Vim pelo site da Aurestride Digital e gostaria de solicitar um orçamento.",
-      "plan_message": "Olá! Tenho interesse no {plano} da Aurestride Digital. Podemos conversar?",
+      "whatsapp_message": "Olá! Vim pelo site da Tekno Pro Digital e gostaria de solicitar um orçamento.",
+      "plan_message": "Olá! Tenho interesse no {plano} da Tekno Pro Digital. Podemos conversar?",
       "service_message": "Olá! Gostaria de um orçamento para: {servico}.",
       "email": "",
       "instagram": "",
@@ -24,17 +24,17 @@
       "form_enabled": true
     },
     "seo": {
-      "title": "Aurestride Digital — Marketing, sites e sistemas web para pequenos negócios",
+      "title": "Tekno Pro Digital — Marketing, sites e sistemas web para pequenos negócios",
       "description": "Estratégia digital, gestão de redes sociais, criação de sites e sistemas web sob medida para pequenos negócios.",
       "og_image": "",
       "site_url": ""
     },
     "hero": {
-      "eyebrow": "Aurestride Digital",
+      "eyebrow": "Tekno Pro Digital",
       "title": "Marketing e tecnologia potencializando o crescimento.",
       "subtitle": "Unimos análise de dados, estratégia de marketing, posicionamento de marca, desenvolvimento de sites e sistemas automatizados para transformar negócios, otimizar processos e aumentar a produtividade.",
       "image_url": "/images/hero-equipe.jpg",
-      "image_alt": "Maria e Lukas, da Aurestride Digital, em reunião",
+      "image_alt": "Maria e Lukas, da Tekno Pro Digital, em reunião",
       "cta_primary": "Conheça nossos serviços",
       "cta_secondary": "Solicitar orçamento",
       "highlights": [
@@ -46,7 +46,7 @@
     "about": {
       "eyebrow": "Sobre nós",
       "title": "Marketing e tecnologia trabalhando juntos",
-      "text": "A Aurestride Digital une estratégia de marketing e desenvolvimento web para oferecer soluções práticas e acessíveis a pequenos negócios. Cuidamos da presença digital da sua empresa e criamos as ferramentas que ajudam a organizar o dia a dia, para que você possa se concentrar em atender bem e crescer.",
+      "text": "A Tekno Pro Digital une estratégia de marketing e desenvolvimento web para oferecer soluções práticas e acessíveis a pequenos negócios. Cuidamos da presença digital da sua empresa e criamos as ferramentas que ajudam a organizar o dia a dia, para que você possa se concentrar em atender bem e crescer.",
       "mission": "Ajudar pequenos negócios a crescer com comunicação clara e ferramentas digitais que simplificam a rotina.",
       "vision": "Ser a parceira digital de referência para pequenos negócios que querem evoluir com profissionalismo.",
       "values": ["Transparência", "Clareza no que é entregue", "Proximidade com o cliente", "Soluções práticas", "Melhoria contínua"],
@@ -101,11 +101,11 @@
     },
     "footer": {
       "text": "Marketing digital, sites e sistemas web para pequenos negócios.",
-      "copyright": "Aurestride Digital. Todos os direitos reservados."
+      "copyright": "Tekno Pro Digital. Todos os direitos reservados."
     },
     "privacy": {
       "enabled": true,
-      "content": "Esta política descreve como a Aurestride Digital trata os dados enviados pelo formulário de contato deste site.\n\nDados coletados: nome, e-mail, telefone, empresa e a mensagem que você escrever. Também registramos um identificador anônimo do endereço de acesso para evitar envios abusivos.\n\nFinalidade: usamos esses dados apenas para responder ao seu contato e elaborar propostas comerciais.\n\nCompartilhamento: não vendemos nem compartilhamos seus dados com terceiros para fins de marketing. Os dados ficam armazenados em provedor de banco de dados com acesso restrito à equipe.\n\nSeus direitos: você pode solicitar a consulta, correção ou exclusão dos seus dados a qualquer momento pelos nossos canais de contato.\n\n[Texto provisório — revisar com orientação jurídica antes da publicação definitiva.]"
+      "content": "Esta política descreve como a Tekno Pro Digital trata os dados enviados pelo formulário de contato deste site.\n\nDados coletados: nome, e-mail, telefone, empresa e a mensagem que você escrever. Também registramos um identificador anônimo do endereço de acesso para evitar envios abusivos.\n\nFinalidade: usamos esses dados apenas para responder ao seu contato e elaborar propostas comerciais.\n\nCompartilhamento: não vendemos nem compartilhamos seus dados com terceiros para fins de marketing. Os dados ficam armazenados em provedor de banco de dados com acesso restrito à equipe.\n\nSeus direitos: você pode solicitar a consulta, correção ou exclusão dos seus dados a qualquer momento pelos nossos canais de contato.\n\n[Texto provisório — revisar com orientação jurídica antes da publicação definitiva.]"
     }
   },
   "team": [

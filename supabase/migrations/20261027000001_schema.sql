@@ -1,5 +1,5 @@
 -- =============================================================
--- Aurestride Digital — esquema do conteúdo do site
+-- Tekno Pro Digital — esquema do conteúdo do site
 -- =============================================================
 
 

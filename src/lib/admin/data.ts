@@ -93,66 +93,196 @@ export interface DashboardData {
   missingContacts: string[];
 }
 
-export async function loadDashboard(): Promise<DashboardData> {
-  const [settings, team, plans, projects, faqs, svcM, svcW, svcS] = await Promise.all([
-    loadSettings(),
-    loadResource("team"),
-    loadResource("plans"),
-    loadResource("projects"),
-    loadResource("faqs"),
-    loadResource("services_marketing"),
-    loadResource("services_web"),
-    loadResource("services_sistemas"),
-  ]);
-  const services = [...svcM, ...svcW, ...svcS];
 
-  let newLeads = 0;
-  if (!adminPreviewMode) {
-    const admin = await getAdmin();
-    const { count } = (await admin?.supabase.from("leads").select("id", { count: "exact", head: true }).eq("status", "new")) ?? {};
-    newLeads = count ?? 0;
+export async function loadDashboard(): Promise<DashboardData> {
+  const admin = adminPreviewMode ? null : await getAdmin();
+
+  let settings: SiteSettings;
+  let team: Row[];
+  let plans: Row[];
+  let projects: Row[];
+  let faqsCount: number;
+  let services: Row[];
+  let newLeads: number;
+  let clientList: ClientSummary[];
+
+  if (adminPreviewMode) {
+    const [s, t, p, pr, f, sm, sw, ss, clients] = await Promise.all([
+      loadSettings(),
+      loadResource("team"),
+      loadResource("plans"),
+      loadResource("projects"),
+      loadResource("faqs"),
+      loadResource("services_marketing"),
+      loadResource("services_web"),
+      loadResource("services_sistemas"),
+      loadClients().catch(() => [] as ClientSummary[]),
+    ]);
+
+    settings = s;
+    team = t;
+    plans = p;
+    projects = pr;
+    faqsCount = f.length;
+    services = [...sm, ...sw, ...ss];
+    newLeads = 0;
+    clientList = clients;
+  } else if (!admin) {
+    settings = mergeSettings(null);
+    team = [];
+    plans = [];
+    projects = [];
+    faqsCount = 0;
+    services = [];
+    newLeads = 0;
+    clientList = [];
+  } else {
+    const [s, t, p, pr, f, sv, l, clients] = await Promise.all([
+      admin.supabase
+        .from("site_settings")
+        .select("data")
+        .eq("id", 1)
+        .maybeSingle(),
+
+      admin.supabase
+      .from("team_members")
+      .select("id, name, role, bio, skills, visible"),
+      admin.supabase
+      .from("marketing_plans")
+      .select("id, active"),
+
+      admin.supabase
+      .from("portfolio_projects")
+      .select("id, title, status, summary, challenge, solution"),
+
+      admin.supabase
+        .from("faqs")
+        .select("id", { count: "exact", head: true }),
+
+      admin.supabase
+      .from("services")
+      .select("id, active, category")
+        .in("category", ["marketing", "web", "sistemas"]),
+
+      admin.supabase
+        .from("leads")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "new"),
+
+      loadClients().catch(() => [] as ClientSummary[]),
+    ]);
+
+    const error =
+      s.error ??
+      t.error ??
+      p.error ??
+      pr.error ??
+      f.error ??
+      sv.error ??
+      l.error;
+
+    if (error) throw new Error(error.message);
+
+    settings = mergeSettings(s.data?.data);
+    team = (t.data ?? []) as Row[];
+    plans = (p.data ?? []) as Row[];
+    projects = (pr.data ?? []) as Row[];
+    faqsCount = f.count ?? 0;
+    services = (sv.data ?? []) as Row[];
+    newLeads = l.count ?? 0;
+    clientList = clients;
   }
 
-  // Clientes: se a migração ainda não foi aplicada, o painel continua funcionando.
-  const clientList = await loadClients().catch(() => [] as ClientSummary[]);
-  const current = clientList.filter((c) => c.status === "active" || c.status === "onboarding");
-  const limit = new Date(Date.parse(todayISO()) + 3 * 86_400_000).toISOString().slice(0, 10);
+  const current = clientList.filter(
+    (c) => c.status === "active" || c.status === "onboarding"
+  );
+
+  const limit = new Date(
+    Date.parse(todayISO()) + 3 * 86_400_000
+  ).toISOString().slice(0, 10);
+
   const followUps = clientList
-    .filter((c) => c.next_contact && c.next_contact <= limit && c.status !== "ended")
-    .sort((a, b) => a.next_contact!.localeCompare(b.next_contact!))
+    .filter(
+      (c) =>
+        c.next_contact &&
+        c.next_contact <= limit &&
+        c.status !== "ended"
+    )
+    .sort((a, b) =>
+      a.next_contact!.localeCompare(b.next_contact!)
+    )
     .slice(0, 8)
-    .map((c) => ({ id: c.id, name: c.name, next_contact: c.next_contact!, note: c.next_contact_note }));
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      next_contact: c.next_contact!,
+      note: c.next_contact_note,
+    }));
 
   const ph = /\[(texto provisório|editar|rascunho)/i;
   const placeholders: string[] = [];
+
   team.forEach((m) => {
-    if ([m.role, m.bio, ...((m.skills as string[]) ?? [])].some((v) => ph.test(String(v ?? "")))) placeholders.push(`Perfil de ${m.name}`);
+    if (
+      [m.role, m.bio, ...((m.skills as string[]) ?? [])].some(
+        (v) => ph.test(String(v ?? ""))
+      )
+    ) {
+      placeholders.push(`Perfil de ${m.name}`);
+    }
   });
+
   projects.forEach((p) => {
-    if ([p.summary, p.challenge, p.solution].some((v) => ph.test(String(v ?? "")))) placeholders.push(`Projeto ${p.title}`);
+    if (
+      [p.summary, p.challenge, p.solution].some(
+        (v) => ph.test(String(v ?? ""))
+      )
+    ) {
+      placeholders.push(`Projeto ${p.title}`);
+    }
   });
-  if (ph.test(settings.privacy.content)) placeholders.push("Política de privacidade");
+
+  if (ph.test(settings.privacy.content)) {
+    placeholders.push("Política de privacidade");
+  }
 
   const missingContacts: string[] = [];
+
   if (!settings.contact.whatsapp) missingContacts.push("WhatsApp");
   if (!settings.contact.email) missingContacts.push("E-mail");
   if (!settings.contact.instagram) missingContacts.push("Instagram");
-  if (!settings.seo.site_url) missingContacts.push("Endereço oficial do site (SEO)");
+  if (!settings.seo.site_url) {
+    missingContacts.push("Endereço oficial do site (SEO)");
+  }
 
   return {
-    services: { active: services.filter((s) => s.active).length, total: services.length },
-    plans: { active: plans.filter((p) => p.active).length, total: plans.length },
+    services: {
+      active: services.filter((s) => s.active).length,
+      total: services.length,
+    },
+    plans: {
+      active: plans.filter((p) => p.active).length,
+      total: plans.length,
+    },
     projects: {
       published: projects.filter((p) => p.status === "published").length,
       drafts: projects.filter((p) => p.status !== "published").length,
     },
-    team: { visible: team.filter((t) => t.visible).length, total: team.length },
-    faqs: faqs.length,
+    team: {
+      visible: team.filter((t) => t.visible).length,
+      total: team.length,
+    },
+    faqs: faqsCount,
     newLeads,
     clients: {
       active: current.length,
-      mrr: current.reduce((sum, c) => sum + (c.monthly_value ?? 0), 0),
-      atRisk: clientList.filter((c) => c.status !== "ended" && c.health === "risk").length,
+      mrr: current.reduce(
+        (sum, c) => sum + (c.monthly_value ?? 0),
+        0
+      ),
+      atRisk: clientList.filter(
+        (c) => c.status !== "ended" && c.health === "risk"
+      ).length,
     },
     followUps,
     placeholders,
@@ -264,8 +394,10 @@ function previewClients(): { clients: Client[]; tasks: ClientTask[]; activities:
 const num = (v: unknown) => (v === null || v === undefined ? null : Number(v));
 const normalizeClient = (r: Record<string, unknown>): Client => ({ ...(r as unknown as Client), monthly_value: num(r.monthly_value) });
 
+
 export async function loadClients(): Promise<ClientSummary[]> {
   const today = todayISO();
+
   let clients: Client[];
   let tasks: Pick<ClientTask, "client_id" | "due_date" | "done">[];
   let activities: Pick<ClientActivity, "client_id" | "happened_on">[];
@@ -275,29 +407,67 @@ export async function loadClients(): Promise<ClientSummary[]> {
   } else {
     const admin = await getAdmin();
     if (!admin) return [];
+
     const [c, t, a] = await Promise.all([
       admin.supabase.from("clients").select("*").order("name"),
-      admin.supabase.from("client_tasks").select("client_id, due_date, done").eq("done", false),
-      admin.supabase.from("client_activities").select("client_id, happened_on").order("happened_on", { ascending: false }).limit(2000),
+      admin.supabase
+        .from("client_tasks")
+        .select("client_id, due_date, done")
+        .eq("done", false),
+      admin.supabase
+        .from("client_activities")
+        .select("client_id, happened_on")
+        .order("happened_on", { ascending: false })
+        .limit(2000),
     ]);
+
     const err = c.error ?? t.error ?? a.error;
     if (err) throw new Error(err.message);
+
     clients = (c.data ?? []).map(normalizeClient);
     tasks = (t.data ?? []) as typeof tasks;
     activities = (a.data ?? []) as typeof activities;
   }
 
-  return clients.map((c) => {
-    const open = tasks.filter((t) => t.client_id === c.id && !t.done);
-    const last = activities.filter((a) => a.client_id === c.id).map((a) => a.happened_on).sort().at(-1) ?? null;
+  const taskCounts = new Map<string, { open: number; overdue: number }>();
+
+  for (const task of tasks) {
+    if (task.done) continue;
+
+    const current = taskCounts.get(task.client_id) ?? {
+      open: 0,
+      overdue: 0,
+    };
+
+    current.open += 1;
+
+    if (task.due_date && task.due_date < today) {
+      current.overdue += 1;
+    }
+
+    taskCounts.set(task.client_id, current);
+  }
+
+  const lastActivityByClient = new Map<string, string>();
+
+  for (const activity of activities) {
+    if (!lastActivityByClient.has(activity.client_id)) {
+      lastActivityByClient.set(activity.client_id, activity.happened_on);
+    }
+  }
+
+  return clients.map((client) => {
+    const counts = taskCounts.get(client.id);
+
     return {
-      ...c,
-      open_tasks: open.length,
-      overdue_tasks: open.filter((t) => t.due_date && t.due_date < today).length,
-      last_activity: last,
+      ...client,
+      open_tasks: counts?.open ?? 0,
+      overdue_tasks: counts?.overdue ?? 0,
+      last_activity: lastActivityByClient.get(client.id) ?? null,
     };
   });
 }
+
 
 export async function loadClient(
   id: string

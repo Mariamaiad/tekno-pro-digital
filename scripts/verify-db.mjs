@@ -147,5 +147,45 @@ ok(!bad.ok, "vídeos não podem exceder o total de conteúdos");
 const badRange = await tryExec("insert into web_pricing (name, price_min, price_max) values ('X', 500, 100)");
 ok(!badRange.ok, "faixa de preço inválida é rejeitada");
 
+// Business Hub: documentos contratuais (bucket privado + RLS)
+const CLIENT_USER = "33333333-3333-3333-3333-333333333333";
+const OTHER_USER = "44444444-4444-4444-4444-444444444444";
+const CLIENT_A = "55555555-5555-5555-5555-555555555555";
+const CLIENT_B = "66666666-6666-6666-6666-666666666666";
+const CONTRACT_A = "77777777-7777-7777-7777-777777777777";
+const CONTRACT_B = "88888888-8888-8888-8888-888888888888";
+await db.exec(`
+  insert into auth.users values ('${CLIENT_USER}', 'cliente@teste'), ('${OTHER_USER}', 'outro-cliente@teste');
+  insert into clients (id, name, status) values ('${CLIENT_A}', 'Empresa A', 'active'), ('${CLIENT_B}', 'Empresa B', 'active');
+  insert into client_users (user_id, client_id) values ('${CLIENT_USER}', '${CLIENT_A}');
+  insert into contracts (id, client_id, contract_number, title, start_date, document_path, document_filename)
+    values
+    ('${CONTRACT_A}', '${CLIENT_A}', 'CT-A', 'Contrato A', '2026-01-01', '${CLIENT_A}/${CONTRACT_A}/a.pdf', 'contrato-a.pdf'),
+    ('${CONTRACT_B}', '${CLIENT_B}', 'CT-B', 'Contrato B', '2026-01-01', '${CLIENT_B}/${CONTRACT_B}/b.pdf', 'contrato-b.pdf');
+  insert into storage.objects (bucket_id, name) values
+    ('contract-documents', '${CLIENT_A}/${CONTRACT_A}/a.pdf'),
+    ('contract-documents', '${CLIENT_B}/${CONTRACT_B}/b.pdf');
+`);
+ok((await count("select count(*) c from storage.buckets where id='contract-documents' and public is false")) === 1, "bucket de contratos é privado");
+await as("anon", null, async () => {
+  ok((await count("select count(*) c from contracts")) === 0, "visitante não lê contratos");
+  ok((await count("select count(*) c from storage.objects where bucket_id='contract-documents'")) === 0, "visitante não lê PDFs de contratos");
+  const ins = await tryExec(`insert into storage.objects (bucket_id, name) values ('contract-documents', '${CLIENT_A}/${CONTRACT_A}/x.pdf')`);
+  ok(!ins.ok, "visitante não envia PDF de contrato");
+});
+await as("authenticated", CLIENT_USER, async () => {
+  ok((await count(`select count(*) c from contracts where id='${CONTRACT_A}'`)) === 1, "cliente lê contrato da própria empresa");
+  ok((await count(`select count(*) c from contracts where id='${CONTRACT_B}'`)) === 0, "cliente não lê contrato de outra empresa");
+  ok((await count(`select count(*) c from storage.objects where name='${CLIENT_A}/${CONTRACT_A}/a.pdf'`)) === 1, "cliente lê PDF da própria empresa");
+  ok((await count(`select count(*) c from storage.objects where name='${CLIENT_B}/${CONTRACT_B}/b.pdf'`)) === 0, "cliente não lê PDF de outra empresa");
+  const ins = await tryExec(`insert into storage.objects (bucket_id, name) values ('contract-documents', '${CLIENT_A}/${CONTRACT_A}/hack.pdf')`);
+  ok(!ins.ok, "cliente não envia PDF de contrato");
+});
+await as("authenticated", ADMIN, async () => {
+  ok((await count("select count(*) c from contracts")) === 2, "admin lê todos os contratos");
+  const ins = await tryExec(`insert into storage.objects (bucket_id, name) values ('contract-documents', '${CLIENT_A}/${CONTRACT_A}/admin.pdf')`);
+  ok(ins.ok, "admin envia PDF de contrato");
+});
+
 console.log(failures ? `\n${failures} verificação(ões) falharam.` : "\nTodas as verificações passaram.");
 process.exit(failures ? 1 : 0);

@@ -9,6 +9,13 @@ const brl = new Intl.NumberFormat("pt-BR", {
 
 export const formatBRL = (v: number) => brl.format(v).replace(/ /g, " ");
 
+export function formatDateBR(iso: string | null | undefined) {
+  if (!iso) return "—";
+  const [year, month, day] = iso.slice(0, 10).split("-");
+  if (!year || !month || !day) return iso;
+  return `${day}/${month}/${year}`;
+}
+
 export function formatWebPrice(w: WebPrice): string {
   const suffix = w.price_suffix ? w.price_suffix : "";
   switch (w.price_type) {

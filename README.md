@@ -1,6 +1,6 @@
-# Aurestride Digital — site institucional e painel administrativo
+# Tekno Pro Digital — site institucional e painel administrativo
 
-Site comercial da Aurestride Digital (marketing, sites e sistemas web para pequenos negócios), com painel em `/admin` para editar praticamente todo o conteúdo sem mexer em código.
+Site comercial da Tekno Pro Digital (marketing, sites e sistemas web para pequenos negócios), com painel em `/admin` para editar praticamente todo o conteúdo sem mexer em código.
 
 - **Stack:** Next.js 16 (App Router) + TypeScript, Tailwind CSS 4, Supabase (Postgres, Auth e Storage) e hospedagem na Vercel.
 - **Conteúdo:** fica no banco de dados. Os preços, planos, textos, fotos e serviços **não estão fixados no código**.
@@ -185,3 +185,43 @@ npm run seed:build   # regenera supabase/seed.sql depois de editar seed/content.
 - **Tipografia:** Inter para textos e Fraunces (serifada) nos títulos, seguindo a referência visual. As duas são servidas pelo próprio site, sem depender do Google Fonts.
 - **Fotos iniciais:** são recortes das fotos enviadas, ficam em `public/images` e podem ser trocadas pelo painel.
 - **Imagens externas:** o painel aceita apenas imagens enviadas por ele (Supabase Storage) ou arquivos locais do projeto. SVG não é aceito no upload, por segurança.
+
+## Business Hub integrado (novembro/2026)
+
+O painel administrativo existente foi preservado. Foram adicionados os módulos `/admin/contratos`, `/admin/marketing`, `/admin/financeiro` e `/admin/solicitacoes`, além do portal privado em `/portal` e login em `/portal/login`.
+
+### Migração incremental
+
+Antes de ativar os módulos, faça backup do banco e execute no SQL Editor do Supabase, após as migrations existentes:
+
+- `supabase/migrations/20261101000001_business_hub.sql`
+- `supabase/migrations/20261102000001_contract_documents.sql` (PDF privado dos contratos; não rode em produção automaticamente)
+
+As migrations não apagam nem substituem as tabelas atuais. A primeira acrescenta contratos, calendário de marketing, lançamentos financeiros, cobranças, usuários vinculados a clientes, notificações e solicitações. A segunda adiciona metadados do PDF em `contracts` e o bucket privado `contract-documents`, com URLs assinadas geradas no servidor. As políticas RLS permitem acesso administrativo e leitura restrita por vínculo do cliente.
+
+### Vincular um login de cliente ao cadastro
+
+1. Crie o usuário em Supabase → Authentication → Users → Add user (confirme o e-mail).
+2. Identifique o UUID do usuário e o UUID correspondente em `public.clients`.
+3. Execute no SQL Editor, substituindo os dois UUIDs reais:
+
+```sql
+insert into public.client_users (user_id, client_id)
+values ('UUID-DO-USUARIO', 'UUID-DO-CLIENTE')
+on conflict (user_id, client_id) do nothing;
+```
+
+O usuário acessa `/portal/login`. Se não houver vínculo, o portal informa que o acesso ainda não foi associado a uma empresa. Um mesmo login pode ser vinculado a mais de um cadastro, se necessário.
+
+### Observações funcionais e limites atuais
+
+- Contratos: cadastro, listagem e PDF privado (upload no painel, visualização/download no portal da própria empresa). Assinatura eletrônica ainda depende de integração posterior.
+- Marketing: cadastro de conteúdo, status e retorno/aprovação do cliente; upload de mídia e publicação automática em redes sociais ainda não estão conectados.
+- Financeiro: lançamentos, cobranças e atualização manual de status; não processa pagamentos nem emite cobrança automática.
+- Portal: exibe contratos, conteúdos, cobranças e solicitações dos clientes vinculados.
+- Os indicadores financeiros refletem os lançamentos registrados; não são uma contabilidade fiscal.
+- O portal não substitui aconselhamento jurídico, contábil ou a assinatura formal de contratos.
+
+### Segurança
+
+A `service_role` não é usada pelo portal. A separação de dados é feita por RLS. Não publique a migration antes de revisar o SQL e realizar backup. Depois de aplicar a migration, teste com um usuário cliente e confirme que ele não consegue consultar IDs de outras empresas.

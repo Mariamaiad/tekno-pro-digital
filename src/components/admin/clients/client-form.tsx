@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -74,7 +74,7 @@ export function ClientForm({
     }
     setErrors({});
     if (readOnly) {
-      toast("error", "Modo demonstração: os dados estão válidos, mas nada é salvo sem o banco de dados.");
+      toast("error", "Modo demonstraÃ§Ã£o: os dados estÃ£o vÃ¡lidos, mas nada Ã© salvo sem o banco de dados.");
       return;
     }
     start(async () => {
@@ -92,11 +92,11 @@ export function ClientForm({
 
   const remove = () => {
     if (!client || readOnly) return;
-    if (!window.confirm(`Excluir ${client.name}? As tarefas e todo o histórico deste cliente também serão apagados.`)) return;
+    if (!window.confirm(`Excluir ${client.name}? As tarefas e todo o histÃ³rico deste cliente tambÃ©m serÃ£o apagados.`)) return;
     start(async () => {
       const r = await deleteClient(client.id);
       if (r.ok) {
-        toast("success", r.message ?? "Excluído.");
+        toast("success", r.message ?? "ExcluÃ­do.");
         router.push("/admin/clientes");
       } else toast("error", r.error);
     });
@@ -120,7 +120,7 @@ export function ClientForm({
       }}
       className="space-y-6"
     >
-      <Group title="Identificação">
+      <Group title="IdentificaÃ§Ã£o">
         <div className="grid items-start gap-5 sm:grid-cols-2">
           <TextField label="Cliente ou empresa" required value={v.name} onChange={(x) => set("name", x)} max={160} error={errors.name} />
           <TextField label="Pessoa de contato" value={v.contact_name} onChange={(x) => set("contact_name", x)} max={120} error={errors.contact_name} />
@@ -129,22 +129,22 @@ export function ClientForm({
             value={v.segment}
             onChange={(x) => set("segment", x)}
             max={120}
-            placeholder="Ex.: Oficina mecânica"
+            placeholder="Ex.: Oficina mecÃ¢nica"
             error={errors.segment}
           />
-          <TextField label="Responsável na Aurestride" value={v.owner} onChange={(x) => set("owner", x)} max={120} error={errors.owner} placeholder="Ex.: Maria" />
+          <TextField label="Responsável na Tekno Pro Digital" value={v.owner} onChange={(x) => set("owner", x)} max={120} error={errors.owner} placeholder="Ex.: Maria" />
           <SelectField
-            label="Situação"
+            label="SituaÃ§Ã£o"
             value={v.status}
             onChange={(x) => set("status", x as ClientInput["status"])}
             options={Object.entries(CLIENT_STATUS).map(([value, s]) => ({ value, label: s.label }))}
           />
           <SelectField
-            label="Como está o relacionamento"
+            label="Como estÃ¡ o relacionamento"
             value={v.health}
             onChange={(x) => set("health", x as ClientInput["health"])}
             options={Object.entries(CLIENT_HEALTH).map(([value, s]) => ({ value, label: s.label }))}
-            help="Marque “Em risco” quando houver insatisfação ou chance de cancelamento."
+            help="Marque â€œEm riscoâ€ quando houver insatisfaÃ§Ã£o ou chance de cancelamento."
           />
         </div>
       </Group>
@@ -161,11 +161,11 @@ export function ClientForm({
       <Group title="Contrato">
         <div className="grid gap-5">
           <ListField
-            label="Serviços contratados"
+            label="ServiÃ§os contratados"
             value={v.services}
             onChange={(x) => set("services", x)}
             error={errors.services}
-            placeholder={serviceSuggestions[0] ? `Ex.: ${serviceSuggestions[0]}` : "Ex.: Gestão de redes sociais"}
+            placeholder={serviceSuggestions[0] ? `Ex.: ${serviceSuggestions[0]}` : "Ex.: GestÃ£o de redes sociais"}
           />
           <div className="grid items-start gap-5 sm:grid-cols-2">
             <div className="grid gap-1.5">
@@ -181,9 +181,9 @@ export function ClientForm({
               placeholder="1 a 31"
             />
             <div className="hidden sm:block" />
-            <DateField label="Início do contrato" value={v.start_date ?? null} onChange={(x) => set("start_date", x)} error={errors.start_date} />
+            <DateField label="InÃ­cio do contrato" value={v.start_date ?? null} onChange={(x) => set("start_date", x)} error={errors.start_date} />
             <DateField
-              label="Renovação ou fim do contrato"
+              label="RenovaÃ§Ã£o ou fim do contrato"
               value={v.renewal_date ?? null}
               onChange={(x) => set("renewal_date", x)}
               error={errors.renewal_date}
@@ -192,21 +192,21 @@ export function ClientForm({
         </div>
       </Group>
 
-      <Group title="Observações e preferências">
+      <Group title="ObservaÃ§Ãµes e preferÃªncias">
         <TextField
           multiline
           rows={5}
-          label="Anotações fixas"
+          label="AnotaÃ§Ãµes fixas"
           value={v.notes}
           onChange={(x) => set("notes", x)}
           max={5000}
           error={errors.notes}
-          help="O que a equipe precisa lembrar sempre: tom de voz, horários, quem aprova, onde ficam os arquivos. Não guarde senhas aqui."
+          help="O que a equipe precisa lembrar sempre: tom de voz, horÃ¡rios, quem aprova, onde ficam os arquivos. NÃ£o guarde senhas aqui."
         />
       </Group>
 
       <div className="sticky bottom-0 z-20 -mx-5 flex flex-wrap items-center justify-end gap-2 border-t border-white/10 bg-[#080d18]/95 px-5 py-3 backdrop-blur">
-        <p className="mr-auto text-xs text-mist">{readOnly ? "Modo demonstração: salvar está desativado." : dirty ? "Há alterações não salvas." : client ? "Tudo salvo." : ""}</p>
+        <p className="mr-auto text-xs text-mist">{readOnly ? "Modo demonstraÃ§Ã£o: salvar estÃ¡ desativado." : dirty ? "HÃ¡ alteraÃ§Ãµes nÃ£o salvas." : client ? "Tudo salvo." : ""}</p>
         {client && (
           <button type="button" onClick={remove} disabled={pending || readOnly} className="btn btn-ghost !min-h-10 !py-2 text-sm hover:!text-red-300">
             <Trash2 className="h-4 w-4" /> Excluir cliente

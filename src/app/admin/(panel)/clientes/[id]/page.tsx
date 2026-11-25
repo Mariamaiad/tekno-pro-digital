@@ -5,6 +5,7 @@ import { ArrowLeft, Globe, Mail } from "lucide-react";
 import { HealthDot, StatusBadge } from "@/components/admin/clients/clients-board";
 import { ClientCare } from "@/components/admin/clients/client-care";
 import { ClientForm } from "@/components/admin/clients/client-form";
+import { ClientPortalAccess } from "@/components/admin/clients/client-portal-access";
 import { InstagramIcon, WhatsappIcon } from "@/components/ui/icons";
 import { adminPreviewMode, loadClient, loadResource } from "@/lib/admin/data";
 import { formatDate, todayISO } from "@/lib/admin/clients";
@@ -22,9 +23,9 @@ export default async function ClientPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ aba?: string }>;
+  searchParams: Promise<{ aba?: string; portalStatus?: string }>;
 }) {
-  const [{ id }, { aba }] = await Promise.all([params, searchParams]);
+  const [{ id }, { aba, portalStatus }] = await Promise.all([params, searchParams]);
   const data = await loadClient(id);
   if (!data) notFound();
   const { client, tasks, activities } = data;
@@ -119,7 +120,10 @@ export default async function ClientPage({
       {tab.key === "acompanhamento" ? (
         <ClientCare key={client.updated_at} client={client} tasks={tasks} activities={activities} today={today} readOnly={adminPreviewMode} />
       ) : (
-        <ClientForm key={client.updated_at} client={client} readOnly={adminPreviewMode} planSuggestions={plans.map((p) => String(p.name))} />
+        <>
+          <ClientForm key={client.updated_at} client={client} readOnly={adminPreviewMode} planSuggestions={plans.map((p) => String(p.name))} />
+          <ClientPortalAccess clientId={client.id} email={client.email} status={portalStatus} readOnly={adminPreviewMode} />
+        </>
       )}
     </>
   );
