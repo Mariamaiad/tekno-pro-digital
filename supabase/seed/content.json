@@ -34,7 +34,7 @@
       "title": "Marketing e tecnologia potencializando o crescimento.",
       "subtitle": "Unimos análise de dados, estratégia de marketing, posicionamento de marca, desenvolvimento de sites e sistemas automatizados para transformar negócios, otimizar processos e aumentar a produtividade.",
       "image_url": "/images/hero-equipe.jpg",
-      "image_alt": "Maria e Lukas, da Tekno Pro Digital, em reunião",
+      "image_alt": "Maria e Lucas, da Tekno Pro Digital, em reunião",
       "cta_primary": "Conheça nossos serviços",
       "cta_secondary": "Solicitar orçamento",
       "highlights": [
@@ -54,7 +54,7 @@
     },
     "sections": {
       "team_eyebrow": "Quem somos",
-      "team_title": "As pessoas por trás da Aurestride",
+      "team_title": "As pessoas por trás da Tekno Pro Digital",
       "team_subtitle": "Uma equipe enxuta, com atendimento direto de quem faz o trabalho.",
       "marketing_eyebrow": "Marketing digital",
       "marketing_title": "Presença digital com estratégia",
@@ -74,7 +74,7 @@
       "web_pricing_disclaimer": "Valores de referência. O valor final depende do escopo, funcionalidades, integrações, prazo e requisitos de cada projeto.",
       "portfolio_eyebrow": "Portfólio",
       "portfolio_title": "Projetos e estudos de caso",
-      "portfolio_subtitle": "Conheça alguns trabalhos desenvolvidos pela Aurestride.",
+      "portfolio_subtitle": "Conheça alguns trabalhos desenvolvidos pela Tekno Pro Digital.",
       "portfolio_empty": "Novos projetos serão publicados em breve.",
       "process_eyebrow": "Como funciona",
       "process_title": "Um processo simples e transparente",
@@ -119,10 +119,10 @@
       "visible": true
     },
     {
-      "name": "Lukas",
+      "name": "Lucas",
       "role": "[Texto provisório] Desenvolvimento de sites e sistemas",
-      "bio": "[Texto provisório — editar no painel] Apresentação do Lukas: sua trajetória, como trabalha e o que o motiva a criar soluções digitais.",
-      "photo_url": "/images/equipe/lukas.jpg",
+      "bio": "[Texto provisório — editar no painel] Apresentação do Lucas: sua trajetória, como trabalha e o que o motiva a criar soluções digitais.",
+      "photo_url": "/images/equipe/Lucas.jpg",
       "skills": ["[Editar] Competência 1", "[Editar] Competência 2", "[Editar] Competência 3"],
       "responsibilities": ["Criação de sites", "Sistemas web", "Automações e integrações"],
       "visible": true
@@ -220,7 +220,7 @@
       "title": "Ambrozio Car",
       "client": "Ambrozio Car",
       "category": "sistema",
-      "summary": "[Rascunho] Projeto-piloto da Aurestride. Publicar somente com autorização do cliente.",
+      "summary": "[Rascunho] Projeto-piloto da Tekno Pro Digital. Publicar somente com autorização do cliente.",
       "challenge": "[Rascunho — preencher] Descreva o desafio do cliente.",
       "solution": "[Rascunho — preencher] Descreva a solução desenvolvida.",
       "deliverables": [],

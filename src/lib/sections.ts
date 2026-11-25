@@ -5,7 +5,7 @@
 
 export const SECTION_DEFS = {
   about: { label: "Sobre nós", hint: "Texto institucional, missão, visão e valores" },
-  team: { label: "Equipe", hint: "Perfis da Maria, do Lukas e de quem mais estiver visível" },
+  team: { label: "Equipe", hint: "Perfis da Maria, do Lucas e de quem mais estiver visível" },
   marketing: { label: "Serviços de marketing", hint: "Cards dos serviços de marketing digital" },
   sites: { label: "Criação de sites", hint: "Cards dos serviços de sites" },
   systems: { label: "Sistemas web", hint: "Bloco de sistemas, automações e integrações" },

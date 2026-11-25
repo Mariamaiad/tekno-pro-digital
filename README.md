@@ -40,7 +40,7 @@ supabase/seed.sql          Gerado a partir do JSON (npm run seed:build)
 | Tabela | Conteúdo |
 | --- | --- |
 | `site_settings` | Identidade, cores, contatos, SEO, textos das seções, rodapé e privacidade (JSON) |
-| `team_members` | Perfis da equipe (Maria, Lukas…) |
+| `team_members` | Perfis da equipe (Maria, Lucas…) |
 | `services` | Serviços de marketing, criação de sites e sistemas web |
 | `marketing_plans` + `plan_items` | Planos e seus entregáveis |
 | `web_pricing` | Tabela de preços de desenvolvimento web |
@@ -86,7 +86,7 @@ npm run dev                  # http://localhost:3000  ·  painel em /admin
    select id, email from auth.users where email = 'email-da-maria@exemplo.com';
    ```
 
-   Repita para o Lukas, se ele também for editar. Para remover um acesso: `delete from public.admins where email = '...';`
+   Repita para o Lucas, se ele também for editar. Para remover um acesso: `delete from public.admins where email = '...';`
 6. Em **Authentication → Sign In / Providers**, desative "Allow new users to sign up". Assim ninguém cria conta sozinho; mesmo que crie, não vira administrador.
 7. Em **Authentication → URL Configuration**, defina o *Site URL* com o endereço oficial do site.
 
@@ -126,7 +126,7 @@ Acesse **seudominio.com.br/admin** e entre com seu e-mail e senha. Toda alteraç
 - Sem WhatsApp cadastrado, a seção Contato não pode ser ocultada, porque os botões de orçamento levam até ela.
 
 ### Trocar fotos
-- **Sua foto ou a do Lukas:** abra **Equipe**, clique no lápis do perfil e use **Trocar imagem**. Prefira fotos verticais, com o rosto bem enquadrado.
+- **Sua foto ou a do Lucas:** abra **Equipe**, clique no lápis do perfil e use **Trocar imagem**. Prefira fotos verticais, com o rosto bem enquadrado.
 - **Foto principal do topo:** em **Textos da página → Apresentação principal → Foto principal**.
 - **Logo:** em **Identidade e SEO → Marca → Logo** (PNG com fundo transparente).
 - Formatos aceitos: JPG, PNG, WebP ou AVIF, com até 5 MB cada.

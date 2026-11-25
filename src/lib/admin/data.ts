@@ -373,7 +373,7 @@ function previewClients(): { clients: Client[]; tasks: ClientTask[]; activities:
       status: "onboarding",
       health: "attention",
       services: ["Sistema de gestão"],
-      owner: "Lukas",
+      owner: "Lucas",
       next_contact: today,
       next_contact_note: "Treinamento do sistema com a equipe.",
     },
